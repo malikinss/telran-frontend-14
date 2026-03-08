@@ -1,25 +1,34 @@
 // ./src/utils/input_handlers.js
 
 const REQUEST = "Enter data in format: isbn,title,author,year";
+const EXIT_COMMAND = "exit";
+const MESSAGE = `${REQUEST}. Type '${EXIT_COMMAND}' to exit.`;
 
 /**
- * Prompts the user to enter book data and returns it as an array.
- * Validates that the input contains exactly 4 comma-separated values.
- * Recursively asks until valid input is provided.
- * @return {string[]} Array containing [isbn, title, author, year].
+ * Prompts the user to enter book data.
+ * Validates that the input contains exactly four comma-separated values.
+ * Recursively asks again until valid input or exit command is provided.
+ *
+ * @returns {string[] | null} Array containing [isbn, title, author, year]
+ * or null if the user chooses to exit.
  */
 function getInputData() {
-	const inputData = prompt(REQUEST);
+	const input = prompt(MESSAGE);
 
-	if (!inputData) {
+	if (!input) {
 		console.warn("No input provided. Please try again.");
 		return getInputData();
 	}
 
-	const parts = inputData.split(",").map((p) => p.trim());
+	if (input.toLowerCase() === EXIT_COMMAND) {
+		console.log("Input process terminated.");
+		return null;
+	}
+
+	const parts = input.split(",").map((value) => value.trim());
 
 	if (parts.length !== 4) {
-		console.warn(`Invalid input format. Please ${REQUEST}`);
+		console.warn(`Invalid input format. ${MESSAGE}`);
 		return getInputData();
 	}
 
