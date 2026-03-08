@@ -7,32 +7,28 @@ const MESSAGE = `${REQUEST}. Type '${EXIT_COMMAND}' to exit.`;
 /**
  * Prompts the user to enter book data.
  * Validates that the input contains exactly four comma-separated values.
- * Recursively asks again until valid input or exit command is provided.
+ * Continues prompting until valid input or exit command is provided.
  *
  * @returns {string[] | null} Array containing [isbn, title, author, year]
  * or null if the user chooses to exit.
  */
 function getInputData() {
-	const input = prompt(MESSAGE);
+	while (true) {
+		const input = prompt(MESSAGE);
 
-	if (!input) {
-		console.warn("No input provided. Please try again.");
-		return getInputData();
-	}
+		if (!input || input.toLowerCase() === EXIT_COMMAND) {
+			console.log("Input process terminated.");
+			return null;
+		}
 
-	if (input.toLowerCase() === EXIT_COMMAND) {
-		console.log("Input process terminated.");
-		return null;
-	}
+		const parts = input.split(",").map((value) => value.trim());
 
-	const parts = input.split(",").map((value) => value.trim());
+		if (parts.length === 4) {
+			return parts;
+		}
 
-	if (parts.length !== 4) {
 		console.warn(`Invalid input format. ${MESSAGE}`);
-		return getInputData();
 	}
-
-	return parts;
 }
 
 export { getInputData };
