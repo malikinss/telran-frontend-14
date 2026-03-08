@@ -14,187 +14,110 @@ Each book must have a **unique ISBN** and contain information about its **title,
 
 ## 📝 Description
 
-This project implements a **console-based library management system** using modern **JavaScript ES modules**.
+This project implements a **modular library system** with the following components:
 
-The system allows the user to enter book data in a specific format and automatically:
-
-- Validate input
-- Create book objects
-- Store them in a library collection
-- Prevent duplicate ISBNs
-- Display the complete list of books
-
-The project follows a **modular architecture** separating:
-
-- **Models** – data structures (`Book`, `Library`)
-- **Utilities** – input handling
-- **Application logic** – program entry point
+- **Book class** – represents individual books with properties: `isbn`, `title`, `author`, `year`. Includes a `toString()` method for formatted output.
+- **Library class** – manages a collection of books. Ensures uniqueness of ISBNs, provides methods to add books, find books by ISBN, and print the library.
+- **Input handler** – prompts the user for book data, validates input, and allows graceful exit.
 
 Project structure:
 
 ```
+
 ./src/
-├─ homework.js                 # Main entry point
+├─ homework.js                 # Main program
 ├─ models/
 │   ├─ Book.js                 # Book class
 │   └─ Library.js              # Library class
 ├─ utils/
-|   └─ input_handlers.js       # Input validation and user interaction
-└─ index.html                  # Browser entry point
+│   └─ input_handlers.js       # User input handler
+└─ /index.html                 # HTML entry point
+
 ```
 
 ---
 
 ## 🎯 Purpose
 
-This homework focuses on practicing:
+The homework focuses on:
 
-1. **Object-Oriented Programming**
-    - Creating classes (`Book`, `Library`)
-    - Encapsulation of data and logic
-
-2. **Data Validation**
-    - Ensuring ISBN uniqueness
-    - Validating input format
-    - Handling incorrect user input
-
-3. **Array Manipulation**
-    - Storing books in collections
-    - Searching using `findIndex`
-
-4. **Modular JavaScript**
-    - Using ES Modules
-    - Separating logic into reusable components
+1. **Object-oriented programming** – defining Book and Library classes.
+2. **Input validation** – ensuring proper format and unique ISBNs.
+3. **User interaction** – using prompts to gather book data.
+4. **Array management** – adding, searching, and printing book collections.
 
 ---
 
 ## 🔍 How It Works
 
-### 1. Book Class
+1. **Book class**
+    - Stores book properties.
+    - `toString()` formats book details.
 
-The `Book` class represents a single book with the following properties:
+2. **Library class**
+    - `addBook(book)` adds a book if ISBN is unique.
+    - `findBook(isbn)` returns index or `-1`.
+    - `print()` lists all books.
 
-- `isbn`
-- `title`
-- `author`
-- `year`
+3. **Input Handling**
+    - `getInputData()` prompts user for `isbn,title,author,year`.
+    - Validates input and trims whitespace.
+    - Allows exiting input process by typing `exit` or leaving blank.
 
-It also implements a `toString()` method that formats the book information:
-
-```
-ISBN: <isbn>, Title: <title>, Author: <author>, Year: <year>
-```
-
----
-
-### 2. Library Class
-
-The `Library` class manages the book collection.
-
-It provides three main operations:
-
-- **addBook(book)**
-    - Adds a book only if the ISBN does not already exist.
-
-- **findBook(isbn)**
-    - Returns the index of the book or `-1` if not found.
-
-- **print()**
-    - Prints all books stored in the library.
-
----
-
-### 3. Input Handling
-
-The function `getInputData()`:
-
-- Prompts the user to enter data in the format:
-
-```
-
-isbn,title,author,year
-
-```
-
-- Validates that exactly **4 comma-separated values** are provided.
-- Allows the user to **exit the input loop by typing `exit`**.
-- Re-prompts the user if the input format is incorrect.
-
----
-
-### 4. Application Flow
-
-1. The program creates a new `Library` instance.
-2. The user is prompted to enter book data.
-3. Each valid entry creates a new `Book`.
-4. The book is added to the library if the ISBN is unique.
-5. When the user types **`exit`**, the input process stops.
-6. All stored books are printed.
+4. **Main Program**
+    - Loops over user input.
+    - Converts year to a number and validates.
+    - Adds valid books to the library.
+    - Prints all books at the end.
 
 ---
 
 ## 📜 Output Example
 
-### User Input
+```js
+// Example usage in homework.js
+const library = new Library();
+let input = getInputData();
 
+while (input) {
+	const [isbn, title, author, yearStr] = input;
+	const year = Number(yearStr);
+
+	if (!Number.isNaN(year)) {
+		const book = new Book(isbn, title, author, year);
+		library.addBook(book);
+	}
+
+	input = getInputData();
+}
+
+library.print();
 ```
 
-Enter data in format: isbn,title,author,year. Type 'exit' to exit.
-12345,JavaScript Basics,John Doe,2023
-67890,Advanced JS,Jane Smith,2021
-exit
+Output:
 
 ```
-
-### Console Output
-
-```
-
-Input process terminated.
-
 Total books: 2
 Books in the library:
 ISBN: 12345, Title: JavaScript Basics, Author: John Doe, Year: 2023
 ISBN: 67890, Title: Advanced JS, Author: Jane Smith, Year: 2021
-
 ```
 
 ---
 
 ## 📦 Usage
 
-1. Open `index.html` in a browser.
-
-2. Enter book data in the format:
-
-```
-
-isbn,title,author,year
-
-```
-
-Example:
-
-```
-
-9780134685991,Effective Java,Joshua Bloch,2018
-
-```
-
-3. Type **`exit`** to stop adding books.
-
-4. The program will print the full library to the console.
+1. Open `index.html` in a modern browser with ESM support.
+2. Enter book data in the format `isbn,title,author,year`.
+3. Type `exit` or leave input blank to finish.
+4. The program prints all books in the console.
 
 ---
 
 ## ✅ Dependencies
 
-No external dependencies are required.
-
-Requirements:
-
-- Modern browser
-- ES Module support
+- Modern browser with **ESM module support**.
+- No external libraries required.
 
 ---
 
@@ -202,14 +125,10 @@ Requirements:
 
 **Status:** ✅ Completed
 
-Features implemented:
-
-- Book object with formatted output
-- Library collection management
-- Unique ISBN validation
-- Input validation
-- User exit command
-- Modular architecture
+- Book and Library classes implemented.
+- Input validation for correct format and unique ISBNs.
+- Books can be added, searched, and printed.
+- Graceful handling of invalid input and exit command.
 
 ---
 
@@ -221,19 +140,11 @@ MIT License
 
 ## 🧮 Conclusion
 
-This project demonstrates **core JavaScript development concepts**:
+This project demonstrates **object-oriented JavaScript** with:
 
-- Object-oriented design
-- Modular architecture
-- Input validation
-- Collection management
-
-The library system provides a clean and extensible foundation that could be expanded with features like:
-
-- book removal
-- persistent storage
-- UI interface
-- search functionality
+- Class-based design for books and library.
+- Input validation and user interaction.
+- Management of a dynamic collection of objects.
 
 ---
 
